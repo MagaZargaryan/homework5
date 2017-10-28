@@ -1,0 +1,62 @@
+<style>
+#canvas {
+	border: solid 1px lightgray
+}
+</style>
+<canvas id="canvas" width=400 height=300>
+</canvas>
+<script>
+	const canvas=document.getElementById("canvas");
+	const context=canvas.getContext("2d");
+
+	const colorArray = [
+	'red',
+	'pink',
+	'blue',
+	'green',
+    ]
+	const rand = function(num) {
+		return Math.floor(Math.random() * num) + 1;
+    };
+    const point = 
+        {
+            x      : rand(canvas.width-60),
+            y      : rand(canvas.height-50),
+            width  : 60,
+            height : 50,
+            xDelta : 1,
+            yDelta : -1, 
+            color  :colorArray[rand(3)-1]
+        };
+        
+   console.log(point);
+
+   const canvasWidth=canvas.width;
+   const canvasHeight=canvas.height;
+
+   const createPoints = function(count, canvasWidth, canvasHeight) {
+   const arr=[];
+
+   const f=function(index){
+		const point = 
+        {
+            x      : rand(canvasWidth-60),
+            y      : rand(canvasHeight-50),
+            width  : 60,
+            height : 50,
+            xDelta : 1,
+            yDelta : -1, 
+            color  :colorArray[rand(3)-1]
+        };
+		if(index === count)
+			return;
+		arr[index]=point;
+		f(index+1);
+	}
+	f(0);
+	console.log(arr);
+	return arr;
+
+}
+
+		</script>

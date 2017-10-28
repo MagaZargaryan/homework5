@@ -1,0 +1,110 @@
+<style>
+#canvas {
+	border: solid 1px lightgray
+}
+</style>
+<canvas id="canvas" width=400 height=300>
+</canvas>
+<script>
+	const canvas=document.getElementById("canvas");
+	const context=canvas.getContext("2d");
+
+	const colorArray = [
+	'red',
+	'pink',
+	'blue',
+	'green',
+	]
+	const rand = function(num) {
+		return Math.floor(Math.random() * num) + 1;
+	};
+   const point = 
+        {
+            x      : rand(canvas.width-60),
+            y      : rand(canvas.height-50),
+            width  : 60,
+            height : 50,
+            xDelta : 1,
+            yDelta : -1, 
+            color  :colorArray[rand(3)-1]
+        };
+        
+   console.log(point);
+
+
+const createPoints = function(count, canvasWidth, canvasHeight) {
+	const arr=[];
+
+	const f=function(index){
+		const point = 
+        {
+            x      : rand(canvasWidth-60),
+            y      : rand(canvasHeight-50),
+            width  : 60,
+            height : 50,
+            xDelta : 1,
+            yDelta : 1, 
+            color  :colorArray[rand(3)-1]
+        };
+		if(index === count)
+			return;
+		arr[index]=point;
+		f(index+1);
+	}
+	f(0);
+	
+	return arr;
+}
+const points = createPoints(10, canvas.width,canvas.height);
+
+const forEach=function(arr,func){
+	const f=function(n){
+		if(n===arr.length){
+			return"";
+		}
+		func(arr[n]);
+		f(n+1);
+	}
+	f(0);
+
+}
+
+
+
+const draw = function() {
+
+	context.clearRect(0,0,canvas.width,canvas.height);
+	forEach(points, function(point){
+	 	context.fillStyle=point.color;
+	 	context.fillRect(point.x,point.y,point.width,point.height)
+	})
+	
+    
+};
+
+const updateData=function(){
+	forEach(points,function(p){
+		p.y=p.y+p.yDelta;
+		p.x=p.x+p.xDelta;
+	    if(p.x>canvas.width-p.width||p.x<0){
+	    	p.xDelta=-p.xDelta;
+
+	    }
+	    if(p.y>canvas.height-p.height||p.y<0){
+	    	p.yDelta=-p.yDelta;
+	    }
+
+	});
+
+
+		
+ }
+ const loop=function(){
+	draw();
+	updateData();
+	window.requestAnimationFrame(loop);
+   };
+   									
+   loop();
+
+</script>
